@@ -60,4 +60,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.androidx.room)
     debugImplementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
 }

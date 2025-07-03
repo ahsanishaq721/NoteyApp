@@ -22,7 +22,8 @@ fun NotListItem(note: Note) {
     Card(
         elevation = CardDefaults.cardElevation(12.dp),
         colors = CardDefaults.cardColors(contentColor = Color(note.color)),
-        border = BorderStroke(1.dp, Color.Black)
+        border = BorderStroke(1.dp, Color.Black),
+        modifier = Modifier.padding(4.dp)
     ) {
         Column(
             modifier = Modifier
