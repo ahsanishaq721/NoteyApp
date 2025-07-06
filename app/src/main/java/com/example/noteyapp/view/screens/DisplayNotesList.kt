@@ -14,7 +14,7 @@ import com.example.noteyapp.roomdb.Note
 fun DisplayNotesList(notes: List<Note>, modifier: Modifier) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(notes) {

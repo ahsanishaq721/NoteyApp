@@ -87,6 +87,6 @@ fun MyFab(noteViewModel: NoteViewModel) {
 @Composable
 fun GreetingPreview() {
     NoteyAppTheme {
-        Greeting("Android")
+//        Greeting("Android")
     }
 }

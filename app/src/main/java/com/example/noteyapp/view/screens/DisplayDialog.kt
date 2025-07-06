@@ -1,6 +1,7 @@
 package com.example.noteyapp.view.screens
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,7 +9,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.example.noteyapp.roomdb.Note
@@ -26,7 +27,7 @@ import com.example.noteyapp.viewmodel.NoteViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DisplayDialog(viewModel: NoteViewModel, showDialog: Boolean, onDismiss: () -> Unit) {
-
+    val context = LocalContext.current // <-- This provides the context
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var selectedColor by remember { mutableStateOf(Color.Blue) }
@@ -40,7 +41,7 @@ fun DisplayDialog(viewModel: NoteViewModel, showDialog: Boolean, onDismiss: () -
                     TextField(
                         value = title,
                         onValueChange = { title = it },
-                        label = { Text("Note Title") }
+                        label = { Text("Note Title") },
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     TextField(
@@ -50,6 +51,10 @@ fun DisplayDialog(viewModel: NoteViewModel, showDialog: Boolean, onDismiss: () -
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     // color picker here
+                    MyColorPicker(
+                        selectedColor = selectedColor,
+                        onColorSelected = { selectedColor = it }
+                    )
 
                 }
             },
@@ -61,7 +66,15 @@ fun DisplayDialog(viewModel: NoteViewModel, showDialog: Boolean, onDismiss: () -
                         description = description,
                         color = selectedColor.toArgb()
                     )
-                    viewModel.insert(note)// insert note into DB
+                    if (title.isEmpty() || description.isEmpty())
+                        Toast.makeText(
+                            context,
+                            "Please enter title and description",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else
+                        viewModel.insert(note)// insert note into DB
+                    onDismiss() // properly dismiss the dialog
                 }) {
                     Text("Save Note")
                 }
